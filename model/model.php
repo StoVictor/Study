@@ -11,33 +11,20 @@
         mysql_close();
         return $arr;
     }
-    /* использовать ORDER BY по дате + удалить лишнее функции, пусть одна функция возвращает масив со значаениями, правильно проименоваными;
-    
-    */
-    function GetSomethingFromNews($id,$whatNeedBring){
-        $que = 'SELECT `'.$whatNeedBring.'` FROM news WHERE `id` ='.$id;
-        $arr = SqlQueryDo($que);
-        $result = $arr[0][$whatNeedBring];
-        return $result;
-    }
 
-    function GetNewsName($id){
-        return GetSomethingFromNews($id,'name');       
-    }
-    function GetNewsPathImg($id){
-        return GetSomethingFromNews($id,'pathToImg');
-    }
-    function GetNewsPathText($id){
-        return GetSomethingFromNews($id,'pathToText');    
-    }
-    function GetNewsDate($id){
-        return GetSomethingFromNews($id,'date');    
-    }
-    
-    function GetNewsId(){
-        $que = 'SELECT id FROM news';
+    function GetNews($id){
+        $que = 'SELECT * FROM news WHERE `id` ='.$id;
         $arr = SqlQueryDo($que);
         return $arr;
+    }
+    function GetNewsOrderedId(){
+        $que = 'SELECT * FROM `news` ORDER BY `date`';
+        $arr = SqlQueryDo($que);
+        $idArr = [];
+        foreach($arr as $el){
+            array_push($idArr,$el['id']);
+        }
+        return $idArr;
     }
 
         
