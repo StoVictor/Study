@@ -3,19 +3,22 @@
     function SqlQueryDo($query){
         mysql_connect('localhost','root','');
         mysql_select_db('News');
-        while ($res = mysql_query($query)){
-            $complRes = $res; 
+        $res = mysql_query($query);
+        $arr = [];
+        while($curEl = mysql_fetch_assoc($res)){
+             array_push($arr, $curEl);
         }
         mysql_close();
-        return $res;
+        return $arr;
     }
-
+    /* использовать ORDER BY по дате + удалить лишнее функции, пусть одна функция возвращает масив со значаениями, правильно проименоваными;
+    
+    */
     function GetSomethingFromNews($id,$whatNeedBring){
         $que = 'SELECT `'.$whatNeedBring.'` FROM news WHERE `id` ='.$id;
-        $res = SqlQueryDo($que);
-        $arr = mysql_fetch_assoc($res);
-        $something = $arr[$whatNeedBring];
-        return $something;
+        $arr = SqlQueryDo($que);
+        $result = $arr[0][$whatNeedBring];
+        return $result;
     }
 
     function GetNewsName($id){
@@ -32,10 +35,10 @@
     }
     
     function GetNewsId(){
-        $que = 'SELECT `id` FROM `news`';
+        $que = 'SELECT id FROM news';
         $arr = SqlQueryDo($que);
-        $arr = mysql_fetch_assoc($arr);
         return $arr;
     }
 
+        
 ?>
